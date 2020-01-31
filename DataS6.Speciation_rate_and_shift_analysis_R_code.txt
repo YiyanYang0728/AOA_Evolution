@@ -1,0 +1,41 @@
+library(TESS)
+
+path = '/your_path/file_name'	#replace the filename according to your data
+tree = read.tree(path)
+
+set.seed(777)
+
+numExpectedMassExtinctions <- 1
+numExpectedRateChanges <- 2
+samplingFraction=1
+
+expectedSurvivalProbability <- 0.05
+
+pMassExtinctionPriorShape2 <- 100
+pMassExtinctionPriorShape1 <- - pMassExtinctionPriorShape2 *
+expectedSurvivalProbability /(expectedSurvivalProbability - 1)
+
+tess.analysis(tree,
+empiricalHyperPriors = TRUE,
+samplingProbability = samplingFraction,
+numExpectedRateChanges = numExpectedRateChanges,
+numExpectedMassExtinctions = numExpectedMassExtinctions,
+pMassExtinctionPriorShape1 = pMassExtinctionPriorShape1,
+pMassExtinctionPriorShape2 = pMassExtinctionPriorShape2,
+MAX_ITERATIONS = 10000,
+dir = "comet_hyperpriors")
+
+output <- tess.process.output("comet_hyperpriors",
+numExpectedRateChanges = numExpectedRateChanges,
+numExpectedMassExtinctions = numExpectedMassExtinctions)
+
+layout.mat <- matrix(1:6,nrow=3,ncol=2,byrow=TRUE)
+layout(layout.mat)
+tess.plot.output(output,
+fig.types = c("speciation rates",
+speciation shift times,
+extinction rates,
+extinction shift times,
+mass extinction Bayes factors,
+mass extinction times),
+las=2)
