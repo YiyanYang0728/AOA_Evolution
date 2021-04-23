@@ -1,4 +1,4 @@
-# Evolution of ammonia-oxidizing archaea related to global events
+# The evolution pathway of ammonia-oxidizing archaea shaped by major geological events
 ## Datasets for this article.
 Description:
 1. Dataset S1. 70 markers sequences
